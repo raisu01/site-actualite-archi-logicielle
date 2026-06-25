@@ -27,7 +27,7 @@ Application desktop qui demande login/mot de passe, invoque le service SOAP d'au
 ## Architecture (MVC)
 
 ```
-src/main/java/sn/diop/actualite/
+src/main/java/sn/actualite/
 ├── model/        Entités métier (Article, Categorie, Utilisateur, Role, Jeton)
 ├── dao/          Accès aux données
 ├── service/      Logique métier

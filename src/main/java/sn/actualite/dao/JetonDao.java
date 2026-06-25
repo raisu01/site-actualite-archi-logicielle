@@ -1,8 +1,8 @@
-package sn.diop.actualite.dao;
+package sn.actualite.dao;
 
-import sn.diop.actualite.model.Jeton;
-import sn.diop.actualite.model.Role;
-import sn.diop.actualite.model.Utilisateur;
+import sn.actualite.model.Jeton;
+import sn.actualite.model.Role;
+import sn.actualite.model.Utilisateur;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

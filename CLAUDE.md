@@ -52,7 +52,7 @@ add tests, JUnit must be added to `pom.xml` first.
   `jakarta.ws.rs`, `jakarta.xml.ws`). Use `jakarta.*` imports everywhere — `javax.*` will not compile
   and forces Tomcat 9, which is wrong for this stack. This is why Tomcat 10+ is required.
 
-- **French domain naming.** Package root is `sn.diop.actualite`; classes and DB columns use French
+- **French domain naming.** Package root is `sn.actualite`; classes and DB columns use French
   (`Utilisateur`, `Categorie`, `Jeton`, `Role`, `AccueilServlet`, `GestionArticlesServlet`). Match
   this when adding code.
 
@@ -70,7 +70,7 @@ add tests, JUnit must be added to `pom.xml` first.
 ## Layout
 
 ```
-src/main/java/sn/diop/actualite/
+src/main/java/sn/actualite/
   model/        entities (Article, Categorie, Utilisateur, Role, Jeton)
   dao/          data access (one DAO per entity + ConnexionBD)
   service/      business logic

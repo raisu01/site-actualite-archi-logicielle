@@ -1,6 +1,6 @@
-package sn.diop.actualite.dao;
+package sn.actualite.dao;
 
-import sn.diop.actualite.model.Categorie;
+import sn.actualite.model.Categorie;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

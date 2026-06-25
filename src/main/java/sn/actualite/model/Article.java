@@ -1,4 +1,4 @@
-package sn.diop.actualite.model;
+package sn.actualite.model;
 
 import java.time.LocalDateTime;
 

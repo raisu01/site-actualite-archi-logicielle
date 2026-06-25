@@ -1,4 +1,4 @@
-package sn.diop.actualite.dao;
+package sn.actualite.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

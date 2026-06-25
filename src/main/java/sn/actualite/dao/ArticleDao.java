@@ -1,9 +1,9 @@
-package sn.diop.actualite.dao;
+package sn.actualite.dao;
 
-import sn.diop.actualite.model.Article;
-import sn.diop.actualite.model.Categorie;
-import sn.diop.actualite.model.Role;
-import sn.diop.actualite.model.Utilisateur;
+import sn.actualite.model.Article;
+import sn.actualite.model.Categorie;
+import sn.actualite.model.Role;
+import sn.actualite.model.Utilisateur;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
