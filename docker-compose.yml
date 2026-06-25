@@ -1,0 +1,21 @@
+services:
+  db:
+    image: mysql:8.3
+    container_name: actualite-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: actualite
+    ports:
+      - "3306:3306"
+    volumes:
+      - actualite-db-data:/var/lib/mysql
+      - ./src/main/resources/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  actualite-db-data:
