@@ -11,6 +11,14 @@ public class ConnexionBD {
     private static final String UTILISATEUR = "root";
     private static final String MOT_DE_PASSE = "";
 
+    static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Driver JDBC MySQL introuvable", e);
+        }
+    }
+
     public static Connection obtenir() {
         try {
             return DriverManager.getConnection(URL, UTILISATEUR, MOT_DE_PASSE);

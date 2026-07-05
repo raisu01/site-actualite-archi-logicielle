@@ -1,8 +1,12 @@
 package sn.actualite.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Jeton {
+
+    private static final DateTimeFormatter FORMAT_AFFICHAGE =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     private int id;
     private String valeur;
@@ -51,5 +55,13 @@ public class Jeton {
 
     public void setActif(boolean actif) {
         this.actif = actif;
+    }
+
+    /**
+     * Date de création déjà formatée (dd/MM/yyyy HH:mm), prête à afficher
+     * directement dans une JSP via ${jeton.dateCreationFormatee}.
+     */
+    public String getDateCreationFormatee() {
+        return dateCreation == null ? "" : dateCreation.format(FORMAT_AFFICHAGE);
     }
 }
