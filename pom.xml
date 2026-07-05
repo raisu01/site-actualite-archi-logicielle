@@ -42,6 +42,32 @@
             <version>3.1.0</version>
         </dependency>
 
+        <!-- Implementation JAX-RS (Tomcat ne fournit qu'un conteneur de servlets,
+             pas de runtime JAX-RS : Jersey embarque ses propres servlets via
+             auto-decouverte, il suffit d'annoter RestApplication avec @ApplicationPath) -->
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <version>3.1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-jaxb</artifactId>
+            <version>3.1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <version>3.1.5</version>
+        </dependency>
+
+        <!-- JAXB (marshalling XML des DTO REST) : plus fourni par le JDK depuis Java 11 -->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>4.0.5</version>
+        </dependency>
+
         <!-- JAX-WS (SOAP) -->
         <dependency>
             <groupId>jakarta.xml.ws</groupId>
