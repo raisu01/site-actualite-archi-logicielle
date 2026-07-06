@@ -60,6 +60,14 @@
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>3.1.5</version>
         </dependency>
+        <!-- Fournisseur d'injection de dependances de Jersey (HK2) : sans lui,
+             ServletContainer.init() echoue avec "InjectionManagerFactory not
+             found" au premier appel REST. -->
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>3.1.5</version>
+        </dependency>
 
         <!-- JAXB (marshalling XML des DTO REST) : plus fourni par le JDK depuis Java 11 -->
         <dependency>
