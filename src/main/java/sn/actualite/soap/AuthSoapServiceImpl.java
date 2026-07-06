@@ -16,6 +16,12 @@ public class AuthSoapServiceImpl implements AuthSoapService {
         if (utilisateur == null) {
             return new AuthResultat(false, "", "Login ou mot de passe incorrect.");
         }
-        return new AuthResultat(true, utilisateur.getRole().name(), "Connexion reussie.");
+
+        AuthResultat resultat = new AuthResultat(true, utilisateur.getRole().name(), "Connexion reussie.");
+        // Fournit directement le jeton actif de l'utilisateur (déjà généré au
+        // préalable par un administrateur depuis /admin/jetons) : l'appli
+        // cliente n'a ainsi qu'à demander login/mot de passe, pas le jeton.
+        resultat.setJeton(authService.trouverJetonActif(utilisateur.getId()));
+        return resultat;
     }
 }

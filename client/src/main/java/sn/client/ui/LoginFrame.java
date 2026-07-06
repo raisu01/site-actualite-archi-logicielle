@@ -11,18 +11,18 @@ import java.awt.*;
  * auprès de soap/AuthSoapService (Membre 2), puis ouvre l'écran de gestion des
  * utilisateurs si le compte est administrateur.
  *
- * Le jeton d'accès (généré par un administrateur via le back-office web,
- * voir controller/admin/GestionJetonsServlet) est demandé séparément : il
- * autorise les appels au service SOAP protégé soap/UtilisateurSoapService
- * (voir util/JetonFilter), indépendamment du login/mot de passe qui identifie
- * la personne utilisant le client.
+ * Le jeton d'accès (généré au préalable par un administrateur via le
+ * back-office web, voir controller/admin/GestionJetonsServlet) n'est pas
+ * ressaisi ici : soap/AuthSoapService le renvoie automatiquement dans sa
+ * réponse quand le compte authentifié en possède un actif.
  */
 public class LoginFrame extends JFrame {
 
-    private final JTextField champUrl = new JTextField("http://localhost:8080/actualite/ws", 30);
+    /** Adresse du service SOAP (Membre 2), publié sous "/actualite/ws". */
+    private static final String URL_SERVEUR = "http://localhost:8080/actualite/ws";
+
     private final JTextField champLogin = new JTextField(20);
     private final JPasswordField champMotDePasse = new JPasswordField(20);
-    private final JTextField champJeton = new JTextField(20);
     private final JLabel etiquetteMessage = new JLabel(" ");
     private final JButton boutonConnexion = new JButton("Se connecter");
 
@@ -44,10 +44,8 @@ public class LoginFrame extends JFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
 
         int ligne = 0;
-        ajouterChamp(panneau, c, ligne++, "Adresse du serveur", champUrl);
         ajouterChamp(panneau, c, ligne++, "Login", champLogin);
         ajouterChamp(panneau, c, ligne++, "Mot de passe", champMotDePasse);
-        ajouterChamp(panneau, c, ligne++, "Jeton d'accès", champJeton);
 
         c.gridx = 0;
         c.gridy = ligne;
@@ -76,13 +74,11 @@ public class LoginFrame extends JFrame {
     }
 
     private void seConnecter() {
-        String url = champUrl.getText().trim();
         String login = champLogin.getText().trim();
         String motDePasse = new String(champMotDePasse.getPassword());
-        String jeton = champJeton.getText().trim();
 
-        if (url.isEmpty() || login.isEmpty() || motDePasse.isEmpty() || jeton.isEmpty()) {
-            afficherMessage("Tous les champs sont obligatoires.");
+        if (login.isEmpty() || motDePasse.isEmpty()) {
+            afficherMessage("Login et mot de passe sont obligatoires.");
             return;
         }
 
@@ -90,12 +86,11 @@ public class LoginFrame extends JFrame {
         afficherMessage(" ");
 
         SwingWorker<SoapClient.ResultatAuth, Void> tache = new SwingWorker<>() {
-            private SoapClient client;
+            private final SoapClient client = new SoapClient(URL_SERVEUR);
             private Exception erreur;
 
             @Override
             protected SoapClient.ResultatAuth doInBackground() {
-                client = new SoapClient(url);
                 try {
                     return client.authentifier(login, motDePasse);
                 } catch (SoapClientException e) {
@@ -131,7 +126,13 @@ public class LoginFrame extends JFrame {
                     return;
                 }
 
-                new GestionUtilisateursFrame(client, jeton, login).setVisible(true);
+                if (resultat.jeton() == null || resultat.jeton().isBlank()) {
+                    afficherMessage("Aucun jeton actif pour ce compte : demandez à un administrateur "
+                            + "d'en générer un depuis le site web (Administration > Jetons).");
+                    return;
+                }
+
+                new GestionUtilisateursFrame(client, resultat.jeton(), login).setVisible(true);
                 dispose();
             }
         };

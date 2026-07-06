@@ -10,6 +10,7 @@ public class AuthResultat {
     private boolean succes;
     private String role;
     private String message;
+    private String jeton;
 
     public AuthResultat() {
     }
@@ -42,5 +43,13 @@ public class AuthResultat {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getJeton() {
+        return jeton;
+    }
+
+    public void setJeton(String jeton) {
+        this.jeton = jeton;
     }
 }

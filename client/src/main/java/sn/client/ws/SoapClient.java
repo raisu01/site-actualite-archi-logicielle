@@ -35,15 +35,19 @@ public class SoapClient {
         this.baseUrl = baseUrl;
     }
 
-    /** Résultat de l'authentification (login/mot de passe) auprès de AuthSoapService. */
-    public record ResultatAuth(boolean succes, String role, String message) {
+    /**
+     * Résultat de l'authentification (login/mot de passe) auprès de AuthSoapService.
+     * Le jeton est celui, déjà généré au préalable par un administrateur, actif
+     * pour ce compte ; il peut être null si aucun jeton n'a encore été généré.
+     */
+    public record ResultatAuth(boolean succes, String role, String message, String jeton) {
     }
 
     public ResultatAuth authentifier(String login, String motDePasse) throws SoapClientException {
         try {
             AuthSoapServiceContrat service = creerProxy(AuthSoapServiceContrat.class, "/auth", null);
             AuthResultatWs resultat = service.authentifier(login, motDePasse);
-            return new ResultatAuth(resultat.isSucces(), resultat.getRole(), resultat.getMessage());
+            return new ResultatAuth(resultat.isSucces(), resultat.getRole(), resultat.getMessage(), resultat.getJeton());
         } catch (Exception e) {
             throw traduire(e);
         }

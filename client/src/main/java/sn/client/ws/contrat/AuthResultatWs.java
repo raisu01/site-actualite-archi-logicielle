@@ -6,6 +6,7 @@ public class AuthResultatWs {
     private boolean succes;
     private String role;
     private String message;
+    private String jeton;
 
     public boolean isSucces() {
         return succes;
@@ -29,5 +30,13 @@ public class AuthResultatWs {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getJeton() {
+        return jeton;
+    }
+
+    public void setJeton(String jeton) {
+        this.jeton = jeton;
     }
 }

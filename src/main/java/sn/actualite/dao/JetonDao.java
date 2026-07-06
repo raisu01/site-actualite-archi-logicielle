@@ -34,6 +34,23 @@ public class JetonDao {
         return jetons;
     }
 
+    /** Jeton actif le plus récent pour un utilisateur donné, ou null s'il n'en a aucun. */
+    public Jeton trouverActifPourUtilisateur(int utilisateurId) {
+        String sql = SELECT_BASE + "WHERE u.id = ? AND j.actif = TRUE ORDER BY j.date_creation DESC LIMIT 1";
+        try (Connection cn = ConnexionBD.obtenir();
+             PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setInt(1, utilisateurId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return construire(rs);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de la recherche du jeton actif", e);
+        }
+        return null;
+    }
+
     public Jeton trouverParValeur(String valeur) {
         String sql = SELECT_BASE + "WHERE j.valeur = ?";
         try (Connection cn = ConnexionBD.obtenir();

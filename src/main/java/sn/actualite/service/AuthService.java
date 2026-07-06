@@ -69,6 +69,17 @@ public class AuthService {
         return jetonDao.listerTous();
     }
 
+    /**
+     * Jeton actif d'un utilisateur (déjà généré au préalable par un
+     * administrateur depuis /admin/jetons), ou null s'il n'en a aucun.
+     * Utilisé par soap/AuthSoapService pour le fournir automatiquement à
+     * l'application client sans que celle-ci ait à le ressaisir.
+     */
+    public String trouverJetonActif(int utilisateurId) {
+        Jeton jeton = jetonDao.trouverActifPourUtilisateur(utilisateurId);
+        return jeton == null ? null : jeton.getValeur();
+    }
+
     /** Génère et active un nouveau jeton pour l'utilisateur donné. */
     public Jeton genererJeton(int utilisateurId) {
         Utilisateur utilisateur = utilisateurDao.trouverParId(utilisateurId);
