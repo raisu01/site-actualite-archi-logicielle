@@ -87,27 +87,30 @@ a:hover { text-decoration: underline; }
 
 .utilisateur-connecte { font-size: 0.9rem; color: var(--couleur-texte-attenue); }
 
-/* ===== Sous-navigation admin ===== */
+/* ===== Sous-navigation admin (onglets) ===== */
+.admin-nav-bande {
+    background: var(--couleur-carte);
+    border-bottom: 1px solid var(--couleur-bordure);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
 .admin-nav {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 12px 20px;
+    padding: 0 20px;
     display: flex;
-    gap: 8px;
-    border-bottom: 1px solid var(--couleur-bordure);
-    background: var(--couleur-carte);
+    gap: 28px;
 }
 
 .admin-nav-lien {
-    padding: 6px 14px;
-    border-radius: 999px;
-    font-size: 0.9rem;
+    padding: 14px 2px 12px;
+    font-size: 0.92rem;
     font-weight: 600;
     color: var(--couleur-texte-attenue);
+    border-bottom: 3px solid transparent;
 }
-.admin-nav-lien:hover { background: var(--couleur-fond); text-decoration: none; }
-.admin-nav-actif { background: var(--couleur-accent); color: #fff; }
-.admin-nav-actif:hover { background: var(--couleur-accent); }
+.admin-nav-lien:hover { color: var(--couleur-texte); text-decoration: none; }
+.admin-nav-actif { color: var(--couleur-accent-fonce); border-bottom-color: var(--couleur-accent); }
 
 /* ===== Bandeau EN DIRECT ===== */
 .bandeau-direct {

@@ -1,19 +1,20 @@
 # Lancer l'application
 
-Guide pas à pas pour démarrer le site d'actualité en local.
+Guide pas à pas pour démarrer le site d'actualité en local (commandes PowerShell / Windows).
 
 ## Prérequis
 
 - **Java 17+** (`java -version`)
 - **Maven** (`mvn -version`)
 - **Docker** (pour la base) — ou un MySQL 8 installé localement
-- **Apache Tomcat 10+** (obligatoirement 10+, car le projet utilise `jakarta.*`)
+- **Apache Tomcat 10+** installé dans `C:\Users\Raisu\tools\apache-tomcat-10.1.56`
+  (obligatoirement 10+, car le projet utilise `jakarta.*`)
 
 ## 1. Démarrer la base de données
 
 Avec Docker (recommandé), depuis la racine du projet :
 
-```bash
+```powershell
 docker compose up -d
 ```
 
@@ -22,7 +23,7 @@ Cela lance MySQL sur le port `3306`, crée la base `actualite` et charge les tab
 
 Vérifier qu'elle tourne :
 
-```bash
+```powershell
 docker compose ps
 ```
 
@@ -32,29 +33,39 @@ docker compose ps
 
 ## 2. Construire l'application
 
-```bash
+```powershell
 mvn clean package
 ```
 
-Cela produit le fichier **`target/actualite.war`**.
+Cela produit le fichier **`target\actualite.war`**.
 
 ## 3. Déployer sur Tomcat
 
-Copier le `.war` dans le dossier `webapps/` de Tomcat :
+Si un ancien déploiement traîne, le supprimer d'abord (sinon Tomcat peut garder d'anciennes
+JSP compilées en cache) :
 
-```bash
-cp target/actualite.war $CATALINA_HOME/webapps/
+```powershell
+Remove-Item -Recurse -Force "C:\Users\Raisu\tools\apache-tomcat-10.1.56\webapps\actualite" -ErrorAction SilentlyContinue
+```
+
+Copier le `.war` dans le dossier `webapps` de Tomcat :
+
+```powershell
+Copy-Item target\actualite.war "C:\Users\Raisu\tools\apache-tomcat-10.1.56\webapps\"
 ```
 
 Puis démarrer Tomcat :
 
-```bash
-# Linux / macOS
-$CATALINA_HOME/bin/startup.sh
-
-# Windows
-%CATALINA_HOME%\bin\startup.bat
+```powershell
+$env:CATALINA_HOME = "C:\Users\Raisu\tools\apache-tomcat-10.1.56"
+& "$env:CATALINA_HOME\bin\startup.bat"
 ```
+
+> `CATALINA_HOME` est aussi défini de façon persistante au niveau utilisateur (variable
+> d'environnement Windows), donc un **nouveau** terminal PowerShell ouvert après
+> aujourd'hui peut directement faire `& "$env:CATALINA_HOME\bin\startup.bat"` sans
+> le réassigner. Dans un terminal déjà ouvert avant que la variable soit créée, il
+> faut la réassigner comme ci-dessus (ou rouvrir le terminal).
 
 Tomcat déploie automatiquement le `.war` (le contexte prend le nom `actualite`).
 
@@ -87,13 +98,14 @@ http://localhost:8080/actualite/rest/articles/categorie/{id} (REST - articles d'
 
 Le CRUD utilisateurs SOAP (`/ws/utilisateurs`) exige un en-tête HTTP `X-Jeton` valide.
 Un jeton se génère depuis le site web : connecté en tant qu'administrateur,
-aller sur **Administration > Jetons**, choisir un utilisateur, cliquer "Générer".
+aller sur **Articles > Jetons** (sous-menu admin), choisir un utilisateur, cliquer "Générer".
 
 ## Arrêter
 
-```bash
+```powershell
 # Tomcat
-$CATALINA_HOME/bin/shutdown.sh        # (shutdown.bat sous Windows)
+$env:CATALINA_HOME = "C:\Users\Raisu\tools\apache-tomcat-10.1.56"
+& "$env:CATALINA_HOME\bin\shutdown.bat"
 
 # Base de données (les données sont conservées)
 docker compose down
@@ -107,17 +119,17 @@ doit déjà tourner** (étapes 1 à 4 ci-dessus) avant de la lancer.
 
 ### Construire
 
-```bash
+```powershell
 cd client
 mvn clean package
 ```
 
-Produit un jar exécutable autonome : **`client/target/actualite-client.jar`**.
+Produit un jar exécutable autonome : **`client\target\actualite-client.jar`**.
 
 ### Lancer
 
-```bash
-java -jar target/actualite-client.jar
+```powershell
+java -jar target\actualite-client.jar
 ```
 
 Une fenêtre de connexion s'ouvre, demandant uniquement **login** et **mot de passe**.
