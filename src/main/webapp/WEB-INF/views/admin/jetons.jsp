@@ -10,6 +10,7 @@
 <body>
 
 <jsp:include page="../fragments/entete.jsp"/>
+<jsp:include page="../fragments/admin-nav.jsp"/>
 
 <main class="conteneur">
 

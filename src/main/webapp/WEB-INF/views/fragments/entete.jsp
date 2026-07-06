@@ -1,5 +1,6 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<%-- 
+<%--
     Fragment d'en-tête réutilisable : logo, navigation par catégorie, bouton connexion,
     bandeau "EN DIRECT". Attend en request scope :
       - categories        : List<Categorie>   (toujours fourni par chaque servlet publique)

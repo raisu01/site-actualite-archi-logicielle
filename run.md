@@ -73,6 +73,22 @@ http://localhost:8080/actualite/
 | admin   | admin123     | Administrateur |
 | editeur | editeur123   | Éditeur        |
 
+## Services web (SOAP et REST)
+
+Exposés par le même Tomcat, sous le même contexte `actualite` :
+
+```
+http://localhost:8080/actualite/ws/auth?wsdl            (SOAP - authentification)
+http://localhost:8080/actualite/ws/utilisateurs?wsdl     (SOAP - CRUD utilisateurs, protégé par jeton)
+http://localhost:8080/actualite/rest/articles            (REST - tous les articles, XML ou JSON selon "Accept")
+http://localhost:8080/actualite/rest/articles/categories (REST - articles groupés par catégorie)
+http://localhost:8080/actualite/rest/articles/categorie/{id} (REST - articles d'une catégorie)
+```
+
+Le CRUD utilisateurs SOAP (`/ws/utilisateurs`) exige un en-tête HTTP `X-Jeton` valide.
+Un jeton se génère depuis le site web : connecté en tant qu'administrateur,
+aller sur **Administration > Jetons**, choisir un utilisateur, cliquer "Générer".
+
 ## Arrêter
 
 ```bash
@@ -85,5 +101,35 @@ docker compose down
 
 ## Application client (partie 3)
 
-Le module `client/` n'est pas encore configuré (`client/pom.xml` est vide). Le guide de
-lancement du client sera ajouté une fois la partie 3 développée.
+Application Swing indépendante, dans le module Maven `client/`. Elle appelle uniquement
+le service SOAP (jamais la base ni le site web directement), donc **le serveur Tomcat
+doit déjà tourner** (étapes 1 à 4 ci-dessus) avant de la lancer.
+
+### Construire
+
+```bash
+cd client
+mvn clean package
+```
+
+Produit un jar exécutable autonome : **`client/target/actualite-client.jar`**.
+
+### Lancer
+
+```bash
+java -jar target/actualite-client.jar
+```
+
+Une fenêtre de connexion s'ouvre, demandant uniquement **login** et **mot de passe**.
+
+### Workflow
+
+1. Saisie login/mot de passe → appel SOAP à `AuthSoapService.authentifier()`.
+2. Si le compte n'est pas administrateur → accès refusé.
+3. Si administrateur → le serveur renvoie automatiquement le jeton actif de ce compte
+   (pas besoin de le ressaisir) et la fenêtre de gestion des utilisateurs s'ouvre.
+4. Chaque action (lister/créer/modifier/supprimer) appelle `UtilisateurSoapService`
+   avec ce jeton dans l'en-tête `X-Jeton`.
+
+> Si le message "Aucun jeton actif pour ce compte" apparaît : générer un jeton pour ce
+> compte depuis le site web (voir section "Services web" ci-dessus), puis relancer le client.

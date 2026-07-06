@@ -87,6 +87,28 @@ a:hover { text-decoration: underline; }
 
 .utilisateur-connecte { font-size: 0.9rem; color: var(--couleur-texte-attenue); }
 
+/* ===== Sous-navigation admin ===== */
+.admin-nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid var(--couleur-bordure);
+    background: var(--couleur-carte);
+}
+
+.admin-nav-lien {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--couleur-texte-attenue);
+}
+.admin-nav-lien:hover { background: var(--couleur-fond); text-decoration: none; }
+.admin-nav-actif { background: var(--couleur-accent); color: #fff; }
+.admin-nav-actif:hover { background: var(--couleur-accent); }
+
 /* ===== Bandeau EN DIRECT ===== */
 .bandeau-direct {
     background: var(--couleur-accent);
