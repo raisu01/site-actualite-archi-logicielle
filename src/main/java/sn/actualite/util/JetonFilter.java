@@ -41,6 +41,14 @@ public class JetonFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+        if (estConsultationContrat(request)) {
+            // Le WSDL (et son XSD) ne contient aucune donnee : le laisser
+            // public permet de tester le service depuis SoapUI/Postman sans
+            // jeton, seul l'appel d'une operation reste protege.
+            chain.doFilter(request, response);
+            return;
+        }
+
         String valeurJeton = request.getHeader(EN_TETE_JETON);
         Utilisateur utilisateur = authService.validerJeton(valeurJeton);
 
@@ -52,5 +60,13 @@ public class JetonFilter implements Filter {
 
         request.setAttribute("utilisateurJeton", utilisateur);
         chain.doFilter(request, response);
+    }
+
+    private boolean estConsultationContrat(HttpServletRequest request) {
+        if (!"GET".equalsIgnoreCase(request.getMethod())) {
+            return false;
+        }
+        String requete = request.getQueryString();
+        return requete != null && (requete.equalsIgnoreCase("wsdl") || requete.toLowerCase().startsWith("xsd="));
     }
 }

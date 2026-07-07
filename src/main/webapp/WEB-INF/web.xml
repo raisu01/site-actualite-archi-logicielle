@@ -11,4 +11,15 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
+    <!-- Services SOAP (JAX-WS via Apache CXF) : voir soap/ServeurSoapServlet -->
+    <servlet>
+        <servlet-name>ServeurSoap</servlet-name>
+        <servlet-class>sn.actualite.soap.ServeurSoapServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServeurSoap</servlet-name>
+        <url-pattern>/ws/*</url-pattern>
+    </servlet-mapping>
+
 </web-app>

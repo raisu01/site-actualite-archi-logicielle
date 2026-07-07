@@ -68,11 +68,18 @@
             <version>4.0.5</version>
         </dependency>
 
-        <!-- JAX-WS (SOAP) -->
+        <!-- JAX-WS (SOAP) : Tomcat ne fournit aucun runtime JAX-WS (contrairement a
+             GlassFish/Payara), Apache CXF l'apporte. CXFServlet publie les
+             endpoints (voir soap/ServeurSoapServlet) et genere le WSDL a la volee. -->
         <dependency>
-            <groupId>jakarta.xml.ws</groupId>
-            <artifactId>jakarta.xml.ws-api</artifactId>
-            <version>4.0.0</version>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>4.0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+            <version>4.0.5</version>
         </dependency>
 
         <!-- JDBC (a adapter selon la base de donnees choisie) -->
