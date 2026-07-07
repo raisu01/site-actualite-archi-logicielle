@@ -1,0 +1,218 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-1234-56789abcdef0",
+		"name": "ActuSN - Services Web",
+		"description": "Tests des services SOAP et REST pour le projet d'Architecture Logicielle (Site d'actualité)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "REST Services",
+			"item": [
+				{
+					"name": "1. GET Tous les articles (JSON)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/actualite/rest/articles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actualite",
+								"rest",
+								"articles"
+							]
+						}
+					}
+				},
+				{
+					"name": "2. GET Tous les articles (XML)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/actualite/rest/articles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actualite",
+								"rest",
+								"articles"
+							]
+						}
+					}
+				},
+				{
+					"name": "3. GET Articles par catégories (JSON)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/actualite/rest/articles/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actualite",
+								"rest",
+								"articles",
+								"categories"
+							]
+						}
+					}
+				},
+				{
+					"name": "4. GET Articles d'une catégorie (JSON)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/actualite/rest/articles/categorie/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actualite",
+								"rest",
+								"articles",
+								"categorie",
+								"1"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "SOAP Services",
+			"item": [
+				{
+					"name": "5. SOAP - Authentification",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:soap=\"http://soap.actualite.sn/\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <soap:authentifier>\r\n         <login>admin</login>\r\n         <motDePasse>admin123</motDePasse>\r\n      </soap:authentifier>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>"
+						},
+						"url": {
+							"raw": "http://localhost:8080/actualite/ws/auth",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actualite",
+								"ws",
+								"auth"
+							]
+						}
+					}
+				},
+				{
+					"name": "6. SOAP - Lister Utilisateurs",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml; charset=utf-8"
+							},
+							{
+								"key": "X-Jeton",
+								"value": "REMPLACER_PAR_JETON_VALIDE"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:soap=\"http://soap.actualite.sn/\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <soap:listerUtilisateurs/>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>"
+						},
+						"url": {
+							"raw": "http://localhost:8080/actualite/ws/utilisateurs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actualite",
+								"ws",
+								"utilisateurs"
+							]
+						}
+					}
+				},
+				{
+					"name": "7. SOAP - Créer Utilisateur",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml; charset=utf-8"
+							},
+							{
+								"key": "X-Jeton",
+								"value": "REMPLACER_PAR_JETON_VALIDE"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:soap=\"http://soap.actualite.sn/\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <soap:creerUtilisateur>\r\n         <login>nouveau_test</login>\r\n         <motDePasse>test123</motDePasse>\r\n         <role>EDITEUR</role>\r\n      </soap:creerUtilisateur>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>"
+						},
+						"url": {
+							"raw": "http://localhost:8080/actualite/ws/utilisateurs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actualite",
+								"ws",
+								"utilisateurs"
+							]
+						}
+					}
+				}
+			]
+		}
+	]
+}

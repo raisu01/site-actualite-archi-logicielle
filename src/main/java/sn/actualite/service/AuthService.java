@@ -5,6 +5,8 @@ import sn.actualite.dao.UtilisateurDao;
 import sn.actualite.model.Jeton;
 import sn.actualite.model.Utilisateur;
 
+import sn.actualite.util.SecuriteUtil;
+
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.List;
@@ -17,12 +19,6 @@ import java.util.List;
  * NOTE ÉQUIPE : ce service est utilisé à la fois par le site web (LoginServlet)
  * et par le service SOAP d'authentification (soap/AuthSoapService, Membre 3).
  * Ne pas dupliquer la vérification des identifiants ailleurs : passer par ici.
- *
- * TODO (à décider en équipe) : les mots de passe sont actuellement stockés et
- * comparés en clair (cf. schema.sql). Pour la qualité du code, il faudrait les
- * hacher (BCrypt ou au minimum SHA-256) — impact sur schema.sql et sur la
- * création/modification d'utilisateurs (UtilisateurDao / GestionUtilisateursServlet),
- * donc à faire ensemble pour ne pas désynchroniser les données de test.
  */
 public class AuthService {
 
@@ -43,7 +39,7 @@ public class AuthService {
         if (utilisateur == null) {
             return null;
         }
-        if (!utilisateur.getMotDePasse().equals(motDePasse)) {
+        if (!utilisateur.getMotDePasse().equals(SecuriteUtil.hacherMotDePasse(motDePasse))) {
             return null;
         }
         return utilisateur;

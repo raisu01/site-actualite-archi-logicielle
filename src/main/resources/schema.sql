@@ -47,8 +47,8 @@ INSERT INTO categorie (nom) VALUES
     ('Technologie');
 
 INSERT INTO utilisateur (login, mot_de_passe, role) VALUES
-    ('admin',   'admin123',   'ADMINISTRATEUR'),
-    ('editeur', 'editeur123', 'EDITEUR');
+    ('admin',   '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9',   'ADMINISTRATEUR'),
+    ('editeur', '78064a810c0dbacfae9e7ac33e7e84f3f032ab2c0dd157744ecab22d839a021e', 'EDITEUR');
 
 INSERT INTO article (titre, contenu, categorie_id, auteur_id) VALUES
     ('Bienvenue sur le site', 'Premier article de demonstration.', 3, 1),
